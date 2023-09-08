@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+        body{background: hsl(30, 38%, 92%);
+             max-width: 1440px;     
+        }
+
+        .main{
+            display: flex;
+            flex-direction: column; /* Align items in a column */
+            justify-content: center;
+            align-items: center;
+            /*border: 2px solid red;*/
+        }
+
+        h1{
+            
+            font-family:"Fraunces", "Sans-serif";
+            color: hsl(212, 21%, 14%);
+            font-weight: 700;
+            font-size: 30px;
+            /*border: 2px solid orange;*/
+            width: 30%;
+            margin:0 0 0 40%;
+            }  
+
+       
+
+        p.a{
+            font-family:"Montserrat", "Serif";
+            color: hsl(228, 12%, 48%);
+            font-weight: 500;
+            font-size: 20px;
+            margin:2% 0 0 40%;
+            width: 80%;
+            /*border: 2px solid yellowgreen;*/
+        }
+
+        #number{
+
+            margin:4% 0 0 40%;
+
+        }
+
+       
+        img {
+            width: 100px;
+            height: 100px;
+            padding-left: 50% ;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #restartButton {
+        margin: 2% 0 0 40%; 
+        background-color: rgb(72, 155, 158);
+        transition-duration: 0.4s;
+        cursor: pointer;
+        padding: 2%;
+        font-size: 20px;
+        color: white;
+        border-color:white;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Third Webpage</h1>
+    </header>
+    <main>
+        <p class="a">Input any number between 0 to 9 and click the button:</p>
+
+        <input id="number">
+
+        <button onclick="myFunction()">Click Here</button>
+
+        <p id="random" class="a"></p>
+
+        <p id="Response" class="a"> </p>
+        <p id="Response-2" class="a"> </p>
+        <!-- <p id="Response-3" class="a"> </p> -->
+
+        <img id="picture" class="changePicture" src=" Goodluck.png " alt="Picture" >
+
+
+
+        <p class="a"> BACK<a href = "index.html">click here</a></p>
+        <p class="a"> NEXT <a href = "Third.html">click here</a></p>
+
+        <button id="restartButton" onclick="restartGame()" class="hidden">Restart Game</button>
+
+    </main>
+
+    <script>
+        let random = Math.floor(Math.random() * 10);
+        let remainingAttempts = 4;
+    
+        document.getElementById("Response-3").innerHTML = random;
+
+        function restartGame() {
+            remainingAttempts = 4;
+            random = Math.floor(Math.random() * 10);
+            document.getElementById("Response").innerHTML = "";
+            document.getElementById("random").innerHTML = "";
+            document.getElementById("number").value ="" ;
+            var imgElement = document.getElementById('picture');
+            document.getElementById("Response-3").innerHTML = random;
+            imgElement.src = " Goodluck.png  "; // Clear the image source
+        }
+    
+        function myFunction() {
+            let number = parseInt(document.getElementById("number").value);
+    
+            if (isNaN(number) || number > 9 || number < 0) {
+                document.getElementById("Response").innerHTML = 
+                "Input a number between 0 to 9";
+            } else if (number < random) {
+                document.getElementById("Response").innerHTML =
+                    "The number " + number + " is less than the random value. You have " + remainingAttempts + " attempts left.";
+                document.getElementById("Response-2").innerHTML = "";
+                var imgElement = document.getElementById('picture');
+                var imagePath = 'Goodluck.png';
+                imgElement.src = imagePath;
+                if (remainingAttempts > 0) {
+                    remainingAttempts--;
+                    document.getElementById("Response-2").innerHTML = " "
+                }
+                else {
+                     document.getElementById("Response-2").innerHTML = 
+                    "You've used all your attempts. Try again";
+                    document.getElementById("random").innerHTML = "The random number was: " + random;
+                    restartGame(); // Call the restartGame() function to reset the game state
+
+                    var imgElement = document.getElementById('picture');
+                    var imagePath = 'Thumb-down.png';
+                    imgElement.src = imagePath;
+                }
+            } else if (number === random) {
+                document.getElementById("Response").innerHTML =
+                    "The number " + number + " is equal to the random value";
+                document.getElementById("Response-2").innerHTML = "Input a number between 0 to 9";
+                document.getElementById("number").value = "";
+                remainingAttempts = 4; // Reset attempts if the correct number is guessed
+    
+                var imgElement = document.getElementById('picture');
+                var imagePath = 'Thumbs-up.png';
+                imgElement.src = imagePath;
+
+                // Disable input field and "Click Here" button
+                document.getElementById("number").disabled = true;
+                document.getElementById("random").innerHTML = "The random number was: " + random;
+                document.getElementById("restartButton").disabled = false; // Enable the restart button
+                showRestartButton(); // Show the reset button
+            } else if (number > random) {
+                document.getElementById("Response").innerHTML =
+                    "The number " + number + " is greater than the random value. You have " + remainingAttempts + " attempts left.";
+                document.getElementById("Response-2").innerHTML = "";
+
+                var imgElement = document.getElementById('picture');
+                var imagePath = 'Goodluck.png';
+                imgElement.src = imagePath;
+                
+                if (remainingAttempts > 0) {
+                    remainingAttempts--;
+                    document.getElementById("Response-2").innerHTML = " "
+                }
+                else {
+                     document.getElementById("Response-2").innerHTML = 
+                    "You've used all your attempts. Try again";
+                    document.getElementById("random").innerHTML = "The random number was: " + random;
+                    restartGame(); // Call the restartGame() function to reset the game state
+
+                    var imgElement = document.getElementById('picture');
+                    var imagePath = 'Thumb-down.png';
+                    imgElement.src = imagePath;
+                }
+            } 
+        }
+
+        function showRestartButton() {
+            document.getElementById("restartButton").classList.remove("hidden");
+
+        }
+
+        // Add the event listener for the reset button outside of the myFunction() function
+        document.getElementById("restartButton").addEventListener("click", function() {
+            document.getElementById("number").disabled = false; // Enable input field
+            document.getElementById("restartButton").classList.add("hidden"); // Hide the reset button again
+        }); 
+
+    </script>    
+        
+</body>
+</html>

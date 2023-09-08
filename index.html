@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Min and Max Numbers</title>
+</head>
+<body>
+  <h1>Find Min and Max Numbers</h1>
+  <button onclick="findMinMax()">Find Min and Max</button>
+  <p id="min"></p>
+  <p id="max"></p>
+
+  <p> NEXT <a href = "Second.html">click here</a></p>
+
+<script>
+    function findMinMax() {
+      const values = [5, 7, 9, 12, 15];
+
+      let min = values[0];
+      let max = values[0];
+
+      for (let i = 1; i < values.length; i++) {
+        if (values[i] < min) {
+          min = values[i];
+        }
+        if (values[i] > max) {
+          max = values[i];
+        }
+      }
+
+      document.getElementById('min').textContent = 'Minimum number: ' + min;
+      document.getElementById('max').textContent = 'Maximum number: ' + max;
+    }
+  </script>
+  </body>
+</html>
